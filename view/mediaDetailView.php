@@ -13,8 +13,28 @@
 </div>
 
 <form method="post">
-    <input type="submit" value="Mettre en favoris" name="favorite" id="addToFavBtn" class="btn btn-dark mr-2">
+    <input type="submit" value="Mettre en favoris" name="favorite" class="btn btn-dark mr-2">
 </form>
+
+<?php if (count($episods) > 0): ?>
+<form method="get" class="mt-2">
+    <div class="col">
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Choix d'épisode</label>
+        </div>
+        <select class="custom-select" id="inputGroupSelect01">
+        <option selected>Sélection d'épisode</option>
+            <?php foreach( $episods as $episod ): ?>
+                <option href="media=<?= $episod['0']; ?>">Episode: <?= $episod['episode']; ?>, saison <?= $episod['season']; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <input type="submit" value="Confirmer" name="selectEpisod" class="btn btn-dark mr-2">
+</form>
+
+<?php endif; ?>
+
 
 <div class="col mt-4">
     <div class="row mt-4">

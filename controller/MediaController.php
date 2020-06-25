@@ -12,6 +12,9 @@ function mediaPage()
   if (isset($_GET['media']) && !empty($_GET['media'])) {
     $search = isset($_GET['media']) ? $_GET['media'] : null;
     $media = Media::getOneMedia($_GET['media']);
+    if($media['type_id'] == '2'):
+      $episods = Media::getEpisodForMedia($media['title']);
+    endif;
     if(isset($_POST['favorite'])):
       try {
         Media::favoriteMedia($_SESSION['user_id'], $_GET['media']);

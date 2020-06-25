@@ -163,6 +163,21 @@ class Media {
 
   }
 
+  public static function getEpisodForMedia($title) {
+
+    // Open database connection
+    $db   = init_db();
+
+    $req  = $db->prepare( "SELECT * FROM media WHERE title = ? ORDER BY release_date DESC" );
+    $req->execute( array( $title ));
+
+    // Close databse connection
+    $db   = null;
+
+    return $req->fetchAll();
+
+  }
+
 
   /***************************
   * ------ ADD FUNCTIONS -----

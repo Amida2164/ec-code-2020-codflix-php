@@ -5,7 +5,7 @@
 <h3>VOS MEDIAS A REGARDER: </h3>
     <div class="media-list" data="<?php $favorites ?>">
         <?php foreach( $favorites as $favory ): ?>
-            <a class="item" href="index.php?media=<?= $favory['id']; ?>">
+            <a class="item" href="index.php?media=<?= $favory['0']; ?>">
                 <div class="video">
                     <div>
                         <iframe allowfullscreen="" frameborder="0"
@@ -27,7 +27,7 @@
         <form method="get">
             <div class="form-group has-btn">
                 <input type="search" id="search" name="title" value="<?= $search; ?>" class="form-control"
-                       placeholder="Rechercher un film ou une série">
+                    placeholder="Rechercher un film ou une série">
 
                 <button type="submit" class="btn btn-block bg-red">Valider</button>
             </div>
