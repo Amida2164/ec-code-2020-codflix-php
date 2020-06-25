@@ -1,5 +1,27 @@
 <?php ob_start(); ?>
 
+
+<?php if (!empty($favorites) && (empty($search))): ?>
+<h3>VOS MEDIAS A REGARDER: </h3>
+    <div class="media-list" data="<?php $favorites ?>">
+        <?php foreach( $favorites as $favory ): ?>
+            <a class="item" href="index.php?media=<?= $favory['id']; ?>">
+                <div class="video">
+                    <div>
+                        <iframe allowfullscreen="" frameborder="0"
+                            src="http://www.youtube.com/embed/<?= $favory['trailer_url']; ?>" >
+                        </iframe>
+                    </div>
+                </div>
+                <div class="title"><?= $favory['title']; ?></div>
+                <div class="title"><?= $favory['tname']; ?> : <?= $favory['gname']; ?></div>
+            </a>
+        <?php endforeach; ?>
+    </div>
+
+<?php endif ?>
+
+
 <div class="row">
     <div class="col-md-4 offset-md-8">
         <form method="get">

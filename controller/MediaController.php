@@ -28,6 +28,7 @@ function mediaPage()
     $medias = Media::filterMedias($search);
     $films  = Media::getFilmMedias();
     $series = Media::getSerieMedias();
+    $favorites = Media::getFavoriteMedias($_SESSION['user_id']);
     require('view/mediaListView.php');
   } 
 }    
