@@ -18,7 +18,7 @@
         <h2 class="title">Bienvenue</h2>
         <div class="sidebar-menu">
           <ul>
-            <li class="active"><a href="/CodFlix/">Médias</a></li>
+            <li class="active"><a href="/ec-code-2020-codflix-php">Médias</a></li>
             <li><a href="index.php?action=favorite">Favoris</a></li>
             <li><a href="index.php?action=history">Historique</a></li>
             <li><a href="index.php?action=profil">Profil utilisateur</a></li>
