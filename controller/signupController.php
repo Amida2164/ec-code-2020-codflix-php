@@ -1,6 +1,7 @@
 <?php
 
 require_once( 'model/user.php' );
+require_once( 'loginController.php' );
 
 /****************************
 * ----- LOAD SIGNUP PAGE -----
@@ -12,7 +13,13 @@ function signupPage() {
   $user->id = isset( $_SESSION['user_id'] ) ? $_SESSION['user_id'] : false;
 
   if( !$user->id ):
-    require('view/auth/signupView.php');
+    // If user submit the signup form
+    if(isset($_POST['Valider']) && $_POST['Valider'] == 'Valider'){
+      signup();
+    }
+    else {
+      require('view/auth/signupView.php');
+    }
   else:
     require('view/homeView.php');
   endif;
@@ -23,31 +30,42 @@ function signupPage() {
 * ----- SIGNUP FUNCTION -----
 ***************************/
 
-function signup($post)
-{
-  if (isset($_POST['submit'])) :
-    $data           = new stdClass();
-    $data->email    = $post['email'];
-    $password = $post['password'];
-    $password_confirm = $post['password_confirm'];
-    $user           = new User($data);
-    $userMail       = $user->getUserByEmail($data->email);
+/**
+ * This function register the user in our database
+ */
+function signup() {
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $password_confirm = $_POST['password_confirm'];
+  $formIsGood = true;
+  if(empty($email)){
+    $formIsGood = false;
+    $error_msg = "Saisissez un email valide";
+  }
+  if(empty($password)){
+    $formIsGood = false;
+    $error_msg = "Saisissez un mot de passe";
+  }
+  if(empty($password_confirm)){
+    $formIsGood = false;
+    $error_msg = "Confirmez le mot de passe";
+  }
+  if($password != $password_confirm) {
+    $formIsGood = false;
+    $error_msg = "Les mots de passe ne sont pas identiques";
+  }
+  if($formIsGood == true) {
+    $hash = hash('sha256', $password);
+    $user = new User();
+    $user->setEmail($email);
+    $user->setPassword($hash);
+    $user->createUser();
 
-    echo $data->password . $data->password_confirm;
-    if ($password == $password_confirm) :
-      if ($user->getEmail() != $userMail['email']) :
-        $user->createUser();
-        $_SESSION['user_id'] = $userMail['id'];
-        header('location: index.php ');
-      else :
-        echo '<script type="text/javascript">alert("Cette adresse mail existe déjà");</script>';
-      endif;
-    else :
-      echo '<script type="text/javascript">alert("Votre mot de passe et la confirmation ne sont pas identique");</script>';
-    endif;
-  else :
-    echo '<script type="text/javascript">alert("Echec de la création de votre compte");</script>';
-  endif;
-
-  require('view/auth/signupView.php');
+    // Redirect user to login page
+    loginPage();
+  }
+  else {
+    $error_msg = "Remplissez le formulaire";
+  }
 }
+
