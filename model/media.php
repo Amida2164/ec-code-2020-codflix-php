@@ -93,8 +93,38 @@ class Media {
     // Open database connection
     $db   = init_db();
 
-    $req  = $db->prepare( "SELECT * FROM media WHERE title = ? ORDER BY release_date DESC" );
+    $req  = $db->prepare( "SELECT *, type.name as tname, genre.name as gname FROM media JOIN type ON media.type_id = type.id JOIN genre ON media.genre_id = genre.id WHERE title LIKE ? ORDER BY release_date DESC" );
     $req->execute( array( '%' . $title . '%' ));
+
+    // Close databse connection
+    $db   = null;
+
+    return $req->fetchAll();
+
+  }
+
+  public static function getFilmMedias() {
+
+    // Open database connection
+    $db   = init_db();
+
+    $req  = $db->prepare( "SELECT *, type.name as tname, genre.name as gname FROM media JOIN type ON media.type_id = type.id JOIN genre ON media.genre_id = genre.id WHERE type_id = 1 ORDER BY release_date DESC" );
+    $req->execute();
+
+    // Close databse connection
+    $db   = null;
+
+    return $req->fetchAll();
+
+  }
+
+  public static function getSerieMedias() {
+
+    // Open database connection
+    $db   = init_db();
+
+    $req  = $db->prepare( "SELECT *, type.name as tname, genre.name as gname FROM media JOIN type ON media.type_id = type.id JOIN genre ON media.genre_id = genre.id WHERE type_id = 2 ORDER BY release_date DESC" );
+    $req->execute();
 
     // Close databse connection
     $db   = null;

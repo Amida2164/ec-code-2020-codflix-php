@@ -16,6 +16,8 @@ function mediaPage()
   } else {
     $search = isset($_GET['title']) ? $_GET['title'] : null;
     $medias = Media::filterMedias($search);
+    $films  = Media::getFilmMedias();
+    $series = Media::getSerieMedias();
     require('view/mediaListView.php');
-  }
-}
+  } 
+}    
