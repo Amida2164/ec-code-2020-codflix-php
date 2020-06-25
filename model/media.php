@@ -133,4 +133,58 @@ class Media {
 
   }
 
+  public static function getOneMedia($id) {
+
+    // Open database connection
+    $db   = init_db();
+
+    $req  = $db->prepare( "SELECT *, type.name as tname, genre.name as gname FROM media JOIN type ON media.type_id = type.id JOIN genre ON media.genre_id = genre.id WHERE media.id = ? ");
+    $req->execute(array( $id ));
+
+    // Close databse connection
+    $db   = null;
+
+    return $req->fetch();
+
+  }
+
+  public static function getFavoriteMedias($id) {
+
+    // Open database connection
+    $db   = init_db();
+
+    $req  = $db->prepare( "SELECT *, type.name as tname, genre.name as gname FROM media JOIN type ON media.type_id = type.id JOIN genre ON media.genre_id = genre.id JOIN user_media ON media.id = user_media.media_id  WHERE user_media.user_id = ? ");
+    $req->execute(array( $id ));
+
+    // Close databse connection
+    $db   = null;
+
+    return $req->fetchAll();
+
+  }
+
+
+  /***************************
+  * ------ ADD FUNCTIONS -----
+  ***************************/
+
+  public static function favoriteMedia( $user_id, $media_id ) {
+
+    // Open database connection
+    $db   = init_db();
+
+    $req  = $db->prepare( "SELECT * FROM user_media WHERE user_id = $user_id AND media_id = $media_id" );
+    $req->execute();
+    if( $req->rowCount() > 0 ) throw new Exception( "Ce media est déjà dans vos favoris" );
+
+    $req  = $db->prepare("INSERT INTO user_media ( user_id, media_id ) VALUES ( :user_id, :media_id )");
+    $req->execute( array(
+      'user_id' => $user_id,
+      'media_id' => $media_id
+    ));
+
+    // Close databse connection
+    $db   = null;
+  }
+
 }
