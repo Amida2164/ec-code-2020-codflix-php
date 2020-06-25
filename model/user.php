@@ -125,4 +125,34 @@ class User {
     return $req->fetch();
   }
 
+  /**************************************
+  * ------ UPDATE USER DATA BY ID -------
+  ***************************************/
+
+  public static function updateUserEmail( $id , $email ) {
+
+    // Open database connection
+    $db   = init_db();
+
+    $req  = $db->prepare( "UPDATE user SET email = '$email' WHERE id = ?" );
+    $req->execute(array( $id ));
+
+    // Close databse connection
+    $db   = null;
+
+  }
+
+  public static function updateUserPassword( $id , $password ) {
+
+    // Open database connection
+    $db   = init_db();
+
+    $req  = $db->prepare( "UPDATE user SET password = '$password' WHERE id = ?" );
+    $req->execute(array( $id ));
+
+    // Close databse connection
+    $db   = null;
+
+  }
+
 }

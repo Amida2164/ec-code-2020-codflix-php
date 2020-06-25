@@ -8,6 +8,7 @@ require_once( 'controller/favoriteController.php');
 require_once( 'controller/historyController.php');
 require_once( 'controller/userProfilController.php');
 require_once( 'controller/contactController.php');
+require_once( 'controller/changePassController.php');
 
 
 /**************************
@@ -62,6 +63,12 @@ if ( isset( $_GET['action'] ) ):
     case 'profil':
 
       profilPage();
+
+    break;
+
+    case 'changepass':
+
+      changePassPage();
 
     break;
 
